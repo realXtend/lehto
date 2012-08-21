@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="600" minHeight="400"
+			   width="100%" height="100%"
+			   backgroundAlpha="0"
+			   frameRate="60"
+			   xmlns:ViewerApplication="*">
+	
+	<ViewerApplication:LehtoViewer id="Viewer" width="100%" height="100%" borderVisible="true" >
+		<fx:Script source="ServerConnection.as"/>
+		
+		
+		
+	</ViewerApplication:LehtoViewer>
+	
+	<mx:HBox width="40%" height="30%" x="0" y="{7 * height / 10 - 40}" horizontalAlign="left" id="chatBox" horizontalGap="0">
+		<ViewerApplication:ButtonTitleWindow width="70%" height="100%" id="chatWindow"
+											 title="Chat - {chatAccount}" headerHeight="0" > 
+			<mx:TabNavigator id="chatTabs" y="-5" width="100%" height="100%" change="onChatTabChange(event)">
+				<s:NavigatorContent width="100%" height="100%" label="Public">
+					<mx:TextArea id="publicMessageArea" x="1" y="1" width="100%" height="100%" editable="false"/>
+				</s:NavigatorContent>
+			</mx:TabNavigator>			
+		</ViewerApplication:ButtonTitleWindow>
+		<mx:TitleWindow id="rosterWindow" width="30%" height="100%" headerHeight="0"
+						title="People">
+			<fx:Script>
+				<![CDATA[
+					import mx.events.FlexEvent;
+					override protected function commitProperties():void
+					{
+						super.commitProperties();
+						
+						if( _room ) {
+							rosterGrid.dataProvider = _room.users.source;
+						}
+					}
+				]]>
+			</fx:Script>
+			<s:Label y="5" text="Connecting..." id="nickField" fontWeight="bold" />
+			<mx:DataGrid id="rosterGrid" width="100%" height="100%" editable="false"
+						 paddingLeft="0" selectable="false" showHeaders="false"
+						 sortableColumns="false">
+				<mx:columns>
+					<!-- mx:DataGridColumn headerText="Icon" dataField="image" itemRenderer="IconRenderer" width="20"/ -->
+					<mx:DataGridColumn dataField="displayName" width="100" />
+					<!-- mx:DataGridColumn headerText="JID" dataField="jid" width="100" /-->
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:TitleWindow>
+		
+	</mx:HBox>
+	<s:BorderContainer id="toolBar" x="0" y="{height - 40}"  width="100%">
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="middle"/>
+		</s:layout>
+		
+		<s:HGroup verticalAlign="middle" horizontalAlign="left" width="50%">	
+			<mx:HBox width="33	%">
+				<mx:TextArea id="inputTextArea" width="{width * 0.4 * 0.7}" height="21" wordWrap="false" /> <!-- backgroundColor="#EFEFEF" borderStyle="inset" /-->
+				<mx:Button id="togglechat"
+						   click="chatWindow.visible = !chatWindow.visible; chatWindow.includeInLayout = !chatWindow.includeInLayout;/*  nickchangefield.visible = false  */"
+						   disabledSkin="@Embed(source='assets/buttons/chat_off.png')"
+						   downSkin="@Embed(source='assets/buttons/chat_on.png')"
+						   overSkin="@Embed(source='assets/buttons/chat_roll.png')" paddingLeft="0"
+						   paddingRight="0" selected="true"
+						   selectedOverSkin="@Embed(source='assets/buttons/chat_on.png')"
+						   selectedUpSkin="@Embed(source='assets/buttons/chat_on.png')"
+						   toggle="true" toolTip="Hide/show chat window"
+						   upSkin="@Embed(source='assets/buttons/chat_off.png')"/>
+				<!--<mx:Button id="sendButton" label="Send" click="onSendClick( event )" />-->
+				<mx:Button id="toggleroster" toggle="true" selected="true" click="rosterWindow.visible = !rosterWindow.visible; rosterWindow.includeInLayout = !rosterWindow.includeInLayout" toolTip="Hide/show chat roster"
+						   upSkin="@Embed(source='assets/buttons/userlist_off.png')"
+						   disabledSkin="@Embed(source='assets/buttons/userlist_off.png')"
+						   downSkin="@Embed(source='assets/buttons/userlist_on.png')"
+						   selectedUpSkin="@Embed(source='assets/buttons/userlist_on.png')"
+						   selectedOverSkin="@Embed(source='assets/buttons/userlist_on.png')"	
+						   overSkin="@Embed(source='assets/buttons/userlist_rollover.png')"/>
+			</mx:HBox>
+		</s:HGroup>
+		
+		<s:HGroup verticalAlign="middle" horizontalAlign="right" width="50%">	
+			<mx:Button id="helpbutton" toggle="true" click="ViewerGUI.showHelp(event)" toolTip="Show help" 
+					   upSkin="@Embed(source='assets/buttons/help_off.png')"
+					   selectedUpSkin="@Embed(source='assets/buttons/help_on.png')"
+					   overSkin="@Embed(source='assets/buttons/help_roll.png')" focusEnabled="false" />
+		</s:HGroup>
+	</s:BorderContainer>
+	
+</s:Application>

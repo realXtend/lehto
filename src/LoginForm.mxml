@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   width="634" height="388" title="Welcome to Lehto Viewer Demo">
+	<!--<s:Image id="welcomeimg" x="15" y="6" source="@Embed(source='assets/welcomelogo.jpg')"/>
+	<s:Image id="welcomeimg2" x="15" y="6" source="@Embed(source='assets/welcomelogo2.jpg')" visible="false" />-->
+	<s:TextInput x="233" y="114" width="162" id='loginName' />
+
+</s:TitleWindow>
