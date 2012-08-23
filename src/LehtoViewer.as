@@ -10,8 +10,7 @@ package
 	import away3d.entities.Mesh;
 	import away3d.entities.Sprite3D;
 	import away3d.events.LoaderEvent;
-	import away3d.extrusions.utils.Path;
-	import away3d.extrusions.utils.PathSegment;
+	import away3d.paths.QuadraticPath;
 	import away3d.lights.DirectionalLight;
 	import away3d.loaders.Loader3D;
 	import away3d.loaders.parsers.Parsers;
@@ -586,7 +585,8 @@ package
 			
 		/*	if (_animatorRemotes.length > 0) { //_animationInProgress2) {
 				_viewDirty = true; //XXX FIXME: optimally would only dirty if the movements affect view -- not if the objects are e.g. behind camera
-				//var animsdone:ArrayCollection.<PathAnimator> = new Vector.<PathAnimator>();
+				//var animsdone:ArrayCollection.<Path
+Animator> = new Vector.<PathAnimator>();
 				var animsdone:ArrayCollection = new ArrayCollection();
 				
 				for each (var animator:PathAnimator in _animatorRemotes) {
@@ -711,12 +711,13 @@ package
 		
 		private function linearAnimator(animtarget:Object3D, to:Vector3D) : PathAnimator
 		{
-			var animationPath:Path = new Path();
+
 			
 			var start:Vector3D = animtarget.position;
 			var middle:Vector3D = to;
-			
-			animationPath.add(new PathSegment(start, middle, to));
+		    var pathPoints : Vector.<Vector3D> = new Vector.<Vector3D>(start, middle, to);
+		    
+			var animationPath : QuadraticPath = new QuadraticPath(pathPoints);			
 			return new PathAnimator(animationPath, animtarget, null, false);
 		}
 		
